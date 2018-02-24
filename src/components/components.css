@@ -53,11 +53,18 @@
 
 .header-row {
     border-bottom: 1px solid darkslategrey;
+    background-color: lightgrey;
 }
 
 .table-header-title {
     font-weight: bold;
     font-size: 2em;
+    color: black;
+}
+
+.table-header-title:hover {
+    color: white;
+    text-decoration: none;
 }
 
 .table-text {

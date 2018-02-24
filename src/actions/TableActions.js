@@ -1,12 +1,12 @@
-
 import {
-    TEST_TYPE
+    RESULTS_SORTED
 } from './types';
 
-export const testAction = () =>{
+export const sortDataBy = ({currentSortKey, newSortKey, currentSortStyle}) => {
 
     return {
-        type: TEST_TYPE
+        type: RESULTS_SORTED,
+        payload: {currentSortKey, newSortKey, currentSortStyle}
     }
 
 };

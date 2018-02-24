@@ -1,9 +1,9 @@
 import {combineReducers} from 'redux';
 
-import SearchReducer from './SearchReducer';
+import TableReducer from './TableReducer';
 import BootstrapReducer from './BootstrapReducer';
 
 export default combineReducers({
-    search: SearchReducer,
+    table: TableReducer,
     bootstrap: BootstrapReducer
 })
