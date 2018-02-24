@@ -67,20 +67,6 @@ class BlinkestIndex extends Component {
 
         const isSmallDevice = this.props.windowWidth < 768;
 
-        // if (isSmallDevice) {
-        //     return (
-        //         <div>
-        //             <h3 className="table-heading">Available Vehicles</h3>
-        //
-        //             <div className="table-container">
-        //                 <Grid>
-        //                     {this.renderVehicles()}
-        //                 </Grid>
-        //             </div>
-        //         </div>
-        //     );
-        // }
-
         return (
             <div>
                 <h3 className="table-heading">Available Vehicles</h3>
