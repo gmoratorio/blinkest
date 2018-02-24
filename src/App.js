@@ -7,6 +7,7 @@ import BlinkestIndex from './components/BlinkestIndex';
 
 import logo from './logo.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.css';
 
 class App extends Component {
   render() {
