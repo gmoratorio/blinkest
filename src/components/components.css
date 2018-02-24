@@ -23,6 +23,30 @@
     border-bottom: 1px solid darkslategrey;
 }
 
+.small-row-container {
+    background-color: whitesmoke;
+}
+
+.small-row-container:hover {
+    background-color: lightgrey;
+}
+
+.top-small-row {
+    background-color: whitesmoke;
+    font-weight: bold;
+    font-size: 1.25em;
+    padding-top: 1em;
+    padding-bottom: 0.5em;
+    padding-left: 2em;
+}
+
+.bottom-small-row {
+    background-color: whitesmoke;
+    padding-bottom: 1em;
+    border-bottom: 1px solid darkslategrey;
+    padding-left: 2.5em;
+}
+
 .vehicle-row:hover {
     background-color: lightgrey;
 }
@@ -38,4 +62,8 @@
 
 .table-text {
     font-size: 1.5em;
+}
+
+.smartphone-text {
+    font-size: 1em;
 }

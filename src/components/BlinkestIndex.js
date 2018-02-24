@@ -7,6 +7,7 @@ import _ from 'lodash';
 import Moment from 'react-moment';
 
 import './components.css';
+import 'bootstrap/dist/css/bootstrap.css';
 
 import {updateWindowDimensions} from '../actions';
 
@@ -147,15 +148,42 @@ class BlinkestIndex extends Component {
                 sameElse: 'L'
             };
 
+            const isSmallDevice = this.props.windowWidth < 768;
+
+            if (isSmallDevice) {
+                const combinedName = `${year} ${make} ${model}`;
+                const milesWithUnit = `${formattedMiles} mi`;
+
+                return (
+                    <Link to="/" key={index}>
+                        <Row className="top-small-row">
+                            <Col className={'smartphone-text col-12'}><span>{combinedName}</span></Col>
+                        </Row>
+
+                        <Row className="bottom-small-row">
+                            <Col className={'smartphone-text col-4'}><span>{milesWithUnit}</span></Col>
+                            <Col className={'smartphone-text col-8'}>
+                                    <span>
+                                        <Moment
+                                            calendar={calendarStrings}
+                                            date={created_at}
+                                        />
+                                    </span>
+                            </Col>
+                        </Row>
+                    </Link>
+                );
+            }
+
             return (
-                <Link to="/">
-                    <Row key={index} className="vehicle-row">
-                        <Col md={2}><span class="table-text">{year}</span></Col>
-                        <Col md={2}><span class="table-text">{make}</span></Col>
-                        <Col md={2}><span class="table-text">{model}</span></Col>
-                        <Col md={3}><span class="table-text">{formattedMiles}</span></Col>
-                        <Col md={3}>
-                            <span class="table-text">
+                <Link to="/" key={index}>
+                    <Row className="vehicle-row">
+                        <Col className={'table-text col-sm-2'}><span>{year}</span></Col>
+                        <Col className={'table-text col-sm-2'}><span>{make}</span></Col>
+                        <Col className={'table-text col-sm-2'}><span>{model}</span></Col>
+                        <Col className={'table-text col-sm-3'}><span>{formattedMiles}</span></Col>
+                        <Col className={'table-text col-sm-3'}>
+                             <span>
                                 <Moment
                                     calendar={calendarStrings}
                                     date={created_at}
@@ -172,9 +200,9 @@ class BlinkestIndex extends Component {
 
         return (
             <div className="container main-container">
-                <h1 class="text-center main-heading">Welcome to Blinkest!</h1>
+                <h1 className="text-center main-heading">Welcome to Blinkest!</h1>
 
-                <h3 class="table-heading">Available Vehicles</h3>
+                <h3 className="table-heading">Available Vehicles</h3>
 
                 {this.renderTable()}
             </div>
