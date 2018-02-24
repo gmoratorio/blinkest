@@ -1,0 +1,41 @@
+.main-container {
+    margin-bottom: 4em;
+}
+
+.main-heading {
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+.table-heading {
+
+}
+
+.table-container {
+    border-top: 1px solid darkslategrey;
+    border-left: 1px solid darkslategrey;
+    border-right: 1px solid darkslategrey;
+}
+
+.vehicle-row {
+    background-color: whitesmoke;
+    padding: 2em;
+    border-bottom: 1px solid darkslategrey;
+}
+
+.vehicle-row:hover {
+    background-color: lightgrey;
+}
+
+.header-row {
+    border-bottom: 1px solid darkslategrey;
+}
+
+.table-header-title {
+    font-weight: bold;
+    font-size: 2em;
+}
+
+.table-text {
+    font-size: 1.5em;
+}
