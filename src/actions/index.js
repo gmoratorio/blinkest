@@ -1,1 +1,2 @@
-export * from './SearchActions';
+export * from './TableActions';
+export * from './BootstrapActions';
