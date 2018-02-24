@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import {Grid, Row, Col, Button, Glyphicon} from 'react-bootstrap';
+import {Grid, Row, Col, Button} from 'react-bootstrap';
 import Octicon from 'react-octicon'
 
 import _ from 'lodash';
@@ -67,19 +67,19 @@ class BlinkestIndex extends Component {
 
         const isSmallDevice = this.props.windowWidth < 768;
 
-        if (isSmallDevice) {
-            return (
-                <div>
-                    <h3 className="table-heading">Available Vehicles</h3>
-
-                    <div className="table-container">
-                        <Grid>
-                            {this.renderVehicles()}
-                        </Grid>
-                    </div>
-                </div>
-            );
-        }
+        // if (isSmallDevice) {
+        //     return (
+        //         <div>
+        //             <h3 className="table-heading">Available Vehicles</h3>
+        //
+        //             <div className="table-container">
+        //                 <Grid>
+        //                     {this.renderVehicles()}
+        //                 </Grid>
+        //             </div>
+        //         </div>
+        //     );
+        // }
 
         return (
             <div>
@@ -87,24 +87,65 @@ class BlinkestIndex extends Component {
 
                 <div className="table-container">
                     <Grid>
-                        <Row className="hidden-sm-down vehicle-row header-row">
-                            <Col md={2}><Button onClick={() => {
-                                this.onClickSort(POST_SPECS.YEAR)
-                            }} className="table-header-title">{this.renderColumnHeader(POST_SPECS.YEAR)}</Button></Col>
-                            <Col md={2}><Button onClick={() => {
-                                this.onClickSort(POST_SPECS.MAKE)
-                            }} className="table-header-title">{this.renderColumnHeader(POST_SPECS.MAKE)}</Button></Col>
-                            <Col md={2}><Button onClick={() => {
-                                this.onClickSort(POST_SPECS.MODEL)
-                            }} className="table-header-title">{this.renderColumnHeader(POST_SPECS.MODEL)}</Button></Col>
-                            <Col md={3}><Button onClick={() => {
-                                this.onClickSort(POST_SPECS.MILEAGE)
-                            }}
-                                                className="table-header-title">{this.renderColumnHeader(POST_SPECS.MILEAGE)}</Button></Col>
-                            <Col md={3}><Button onClick={() => {
-                                this.onClickSort(POST_SPECS.CREATED_AT)
-                            }} className="table-header-title">{this.renderColumnHeader(POST_SPECS.CREATED_AT)}</Button></Col>
+                        <Row className={isSmallDevice ? 'vehicle-row-small header-row' : 'vehicle-row header-row'}>
+                            <Col className={isSmallDevice ? 'col-2 offset-1' : 'col-md-2'}>
+                                <Button
+                                    onClick={() => {
+                                        this.onClickSort(POST_SPECS.YEAR)
+                                    }}
+                                    className={isSmallDevice ? 'table-header-title-small' : 'table-header-title'}
+                                >
+                                    {this.renderColumnHeader(POST_SPECS.YEAR)}
+                                </Button>
+                            </Col>
+
+                            <Col className={isSmallDevice ? 'col-2' : 'col-md-2'}>
+                                <Button
+                                    onClick={() => {
+                                        this.onClickSort(POST_SPECS.MAKE)
+                                    }}
+                                    className={isSmallDevice ? 'table-header-title-small' : 'table-header-title'}
+                                >
+                                    {this.renderColumnHeader(POST_SPECS.MAKE)}
+                                </Button>
+                            </Col>
+
+                            <Col className={isSmallDevice ? 'col-2' : 'col-md-2'}>
+                                <Button
+                                    onClick={() => {
+                                        this.onClickSort(POST_SPECS.MODEL)
+                                    }}
+                                    className={isSmallDevice ? 'table-header-title-small' : 'table-header-title'}
+                                >
+                                    {this.renderColumnHeader(POST_SPECS.MODEL)}
+                                </Button>
+                            </Col>
+
+                            <Col className={isSmallDevice ? 'col-2' : 'col-md-3'}>
+                                <Button
+                                    onClick={() => {
+                                        this.onClickSort(POST_SPECS.MILEAGE)
+                                    }}
+
+                                    className={isSmallDevice ? 'table-header-title-small' : 'table-header-title'}
+                                >
+                                    {this.renderColumnHeader(POST_SPECS.MILEAGE)}
+                                </Button>
+                            </Col>
+
+                            <Col className={isSmallDevice ? 'col-2' : 'col-md-3'}>
+                                <Button
+                                    onClick={() => {
+                                        this.onClickSort(POST_SPECS.CREATED_AT)
+                                    }}
+                                    className={isSmallDevice ? 'table-header-title-small' : 'table-header-title'}
+                                >
+                                    {this.renderColumnHeader(POST_SPECS.CREATED_AT)}
+                                </Button>
+                            </Col>
                         </Row>
+
+
                         {this.renderVehicles()}
                     </Grid>
                 </div>

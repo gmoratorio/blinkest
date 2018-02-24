@@ -23,6 +23,17 @@
     border-bottom: 1px solid darkslategrey;
 }
 
+.vehicle-row:hover {
+    background-color: lightgrey;
+}
+
+.vehicle-row-small {
+    background-color: whitesmoke;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    border-bottom: 1px solid darkslategrey;
+}
+
 .small-row-container {
     background-color: whitesmoke;
 }
@@ -47,10 +58,6 @@
     padding-left: 2.5em;
 }
 
-.vehicle-row:hover {
-    background-color: lightgrey;
-}
-
 .header-row {
     border-bottom: 1px solid darkslategrey;
     background-color: lightgrey;
@@ -64,6 +71,7 @@
     padding: 0;
     border: none;
     box-shadow: none;
+
 }
 
 .table-header-title:focus {
@@ -72,6 +80,26 @@
 }
 
 .table-header-title:hover {
+    color: white;
+    text-decoration: none;
+}
+
+.table-header-title-small {
+    font-weight: bold;
+    font-size: 1em;
+    color: black;
+    background: none;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+}
+
+.table-header-title-small:focus {
+    border: none;
+    box-shadow: none;
+}
+
+.table-header-title-small:hover {
     color: white;
     text-decoration: none;
 }
