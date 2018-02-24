@@ -4,8 +4,11 @@ import {Link} from 'react-router-dom';
 import {Grid, Row, Col} from 'react-bootstrap';
 
 import _ from 'lodash';
+import Moment from 'react-moment';
 
 import './components.css';
+
+import {updateWindowDimensions} from '../actions';
 
 const sampleData = [
     {
@@ -94,18 +97,71 @@ const sampleData = [
 
 class BlinkestIndex extends Component {
 
+
+    componentDidMount() {
+        this.props.updateWindowDimensions();
+
+        window.addEventListener('resize', this.props.updateWindowDimensions);
+    }
+
+    renderTable = () => {
+
+        const isSmallDevice = this.props.windowWidth < 768;
+
+        if (isSmallDevice) {
+            return (
+                <div className="table-container">
+                    <Grid>
+                        {this.renderCars()}
+                    </Grid>
+                </div>
+            );
+        }
+
+        return (
+            <div className="table-container">
+                <Grid>
+                    <Row className="hidden-sm-down vehicle-row header-row">
+                        <Col md={2}><span className="table-header-title">Year</span></Col>
+                        <Col md={2}><span className="table-header-title">Make</span></Col>
+                        <Col md={2}><span className="table-header-title">Model</span></Col>
+                        <Col md={3}><span className="table-header-title">Mileage</span></Col>
+                        <Col md={3}><span className="table-header-title">Date</span></Col>
+                    </Row>
+                    {this.renderCars()}
+                </Grid>
+            </div>
+        );
+    };
+
     renderCars = () => {
         return _.map(sampleData, (car, index) => {
-            const {year, make, model, mileage} = car;
+            const {created_at, year, make, model, mileage} = car;
+
             const formattedMiles = Number(mileage).toLocaleString();
+
+            const calendarStrings = {
+                lastDay: '[Yesterday at] LT',
+                sameDay: '[Today at] LT',
+                lastWeek: '[last] dddd [at] LT',
+                sameElse: 'L'
+            };
 
             return (
                 <Link to="/">
                     <Row key={index} className="vehicle-row">
-                        <Col md={3}><span class="table-text">{year}</span></Col>
-                        <Col md={3}><span class="table-text">{make}</span></Col>
-                        <Col md={3}><span class="table-text">{model}</span></Col>
+                        <Col md={2}><span class="table-text">{year}</span></Col>
+                        <Col md={2}><span class="table-text">{make}</span></Col>
+                        <Col md={2}><span class="table-text">{model}</span></Col>
                         <Col md={3}><span class="table-text">{formattedMiles}</span></Col>
+                        <Col md={3}>
+                            <span class="table-text">
+                                <Moment
+                                    calendar={calendarStrings}
+                                    date={created_at}
+                                />
+                            </span>
+                        </Col>
                     </Row>
                 </Link>
             );
@@ -113,23 +169,14 @@ class BlinkestIndex extends Component {
     };
 
     render() {
+
         return (
             <div className="container main-container">
                 <h1 class="text-center main-heading">Welcome to Blinkest!</h1>
 
                 <h3 class="table-heading">Available Vehicles</h3>
 
-                <div class="table-container">
-                    <Grid >
-                        <Row className="vehicle-row header-row">
-                            <Col md={3}><span class="table-header-title">Year</span></Col>
-                            <Col md={3}><span class="table-header-title">Make</span></Col>
-                            <Col md={3}><span class="table-header-title">Model</span></Col>
-                            <Col md={3}><span class="table-header-title">Mileage</span></Col>
-                        </Row>
-                        {this.renderCars()}
-                    </Grid>
-                </div>
+                {this.renderTable()}
             </div>
         );
     }
@@ -137,7 +184,9 @@ class BlinkestIndex extends Component {
 }
 
 function mapStateToProps(state) {
-    return {};
+    const {windowWidth, windowHeight} = state.bootstrap;
+
+    return {windowWidth, windowHeight};
 }
 
-export default connect(mapStateToProps, {})(BlinkestIndex);
+export default connect(mapStateToProps, {updateWindowDimensions})(BlinkestIndex);
