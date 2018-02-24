@@ -60,11 +60,27 @@
     font-weight: bold;
     font-size: 2em;
     color: black;
+    background: none;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+}
+
+.table-header-title:focus {
+    border: none;
+    box-shadow: none;
 }
 
 .table-header-title:hover {
     color: white;
     text-decoration: none;
+}
+
+.selected-column {
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .table-text {
@@ -73,4 +89,14 @@
 
 .smartphone-text {
     font-size: 1em;
+}
+
+.spinner-large {
+    font-size: 12em;
+}
+
+.sort-icon {
+    font-size: 1em;
+    padding-left: 0.25em;
+    padding-top: 0.30em;
 }

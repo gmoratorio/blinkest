@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import {Grid, Row, Col, Button} from 'react-bootstrap';
+import {Grid, Row, Col, Button, Glyphicon} from 'react-bootstrap';
+import Octicon from 'react-octicon'
 
 import _ from 'lodash';
 import Moment from 'react-moment';
@@ -11,7 +12,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 import {updateWindowDimensions, sortDataBy, loadVehicles} from '../actions';
 
-import {POST_SPECS} from '../constants';
+import {POST_SPECS, SORT_STYLE} from '../constants';
+import {posts} from '../locale.en';
 
 class BlinkestIndex extends Component {
 
@@ -25,20 +27,40 @@ class BlinkestIndex extends Component {
         window.addEventListener('resize', this.props.updateWindowDimensions);
     }
 
-    onClickSort = (newSortKey) => {
+    renderColumnHeader = (columnName) => {
         const {sortStyle, sortKey} = this.props;
+        const {postDetail} = posts;
 
-        this.props.sortDataBy({currentSortStyle: sortStyle, currentSortKey: sortKey, newSortKey});
+        if (columnName !== sortKey) {
+            return (
+                <span>
+                    {postDetail[columnName]}
+                </span>
+            );
+        } else {
+
+            return (
+                <span className="selected-column">
+                    {postDetail[columnName]}
+                    <Octicon className="sort-icon" name={sortStyle === SORT_STYLE.ASC ? 'arrow-up' : 'arrow-down'}/>
+                </span>
+            );
+        }
+
+    };
+
+    onClickSort = (newSortKey) => {
+        this.props.sortDataBy({newSortKey});
     };
 
     renderTable = () => {
-
-        const {vehiclePosts} = this.props;
+        const {vehiclePosts, sortStyle, sortKey} = this.props;
 
         if (vehiclePosts.length === 0) {
             return (
                 <div className="text-center">
                     <h3 className="table-heading">Loading...</h3>
+                    <Octicon className="spinner-large" spin name="sync"/>
                 </div>
             );
         }
@@ -66,11 +88,22 @@ class BlinkestIndex extends Component {
                 <div className="table-container">
                     <Grid>
                         <Row className="hidden-sm-down vehicle-row header-row">
-                            <Col md={2}><a href="#" className="table-header-title">Year</a></Col>
-                            <Col md={2}><a href="#" className="table-header-title">Make</a></Col>
-                            <Col md={2}><a href="#" className="table-header-title">Model</a></Col>
-                            <Col md={3}><a href="#" className="table-header-title">Mileage</a></Col>
-                            <Col md={3}><a href="#" className="table-header-title">Posted</a></Col>
+                            <Col md={2}><Button onClick={() => {
+                                this.onClickSort(POST_SPECS.YEAR)
+                            }} className="table-header-title">{this.renderColumnHeader(POST_SPECS.YEAR)}</Button></Col>
+                            <Col md={2}><Button onClick={() => {
+                                this.onClickSort(POST_SPECS.MAKE)
+                            }} className="table-header-title">{this.renderColumnHeader(POST_SPECS.MAKE)}</Button></Col>
+                            <Col md={2}><Button onClick={() => {
+                                this.onClickSort(POST_SPECS.MODEL)
+                            }} className="table-header-title">{this.renderColumnHeader(POST_SPECS.MODEL)}</Button></Col>
+                            <Col md={3}><Button onClick={() => {
+                                this.onClickSort(POST_SPECS.MILEAGE)
+                            }}
+                                                className="table-header-title">{this.renderColumnHeader(POST_SPECS.MILEAGE)}</Button></Col>
+                            <Col md={3}><Button onClick={() => {
+                                this.onClickSort(POST_SPECS.CREATED_AT)
+                            }} className="table-header-title">{this.renderColumnHeader(POST_SPECS.CREATED_AT)}</Button></Col>
                         </Row>
                         {this.renderVehicles()}
                     </Grid>
@@ -83,7 +116,7 @@ class BlinkestIndex extends Component {
         const {vehiclePosts} = this.props;
 
         return _.map(vehiclePosts, (car, index) => {
-            const {created_at, year, make, model, mileage} = car;
+            const {createdAt, year, make, model, mileage} = car;
 
             const formattedMiles = Number(mileage).toLocaleString();
 
@@ -112,7 +145,7 @@ class BlinkestIndex extends Component {
                                     <span>
                                         <Moment
                                             calendar={calendarStrings}
-                                            date={created_at}
+                                            date={createdAt}
                                         />
                                     </span>
                             </Col>
@@ -132,7 +165,7 @@ class BlinkestIndex extends Component {
                              <span>
                                 <Moment
                                     calendar={calendarStrings}
-                                    date={created_at}
+                                    date={createdAt}
                                 />
                             </span>
                         </Col>
@@ -156,8 +189,8 @@ class BlinkestIndex extends Component {
 }
 
 function mapStateToProps(state) {
-    const {windowWidth, windowHeight, vehiclePosts} = state.bootstrap;
-    const {sortStyle, sortKey} = state.table;
+    const {windowWidth, windowHeight} = state.bootstrap;
+    const {sortStyle, sortKey, vehiclePosts} = state.table;
 
     return {windowWidth, windowHeight, vehiclePosts, sortStyle, sortKey};
 }

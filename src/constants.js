@@ -6,6 +6,7 @@ export const SORT_STYLE = {
 export const POST_SPECS = {
     YEAR: 'year',
     MAKE: 'make',
+    MODEL: 'model',
     MILEAGE: 'mileage',
     DRIVETRAIN: 'drivetrain',
     BODY_TYPE: 'bodytype',
