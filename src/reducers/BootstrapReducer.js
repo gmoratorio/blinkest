@@ -1,5 +1,4 @@
 import {
-    VEHICLE_POSTS_READY,
     UPDATED_DIMENSIONS
 } from '../actions/types';
 

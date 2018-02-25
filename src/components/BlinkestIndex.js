@@ -10,9 +10,9 @@ import Moment from 'react-moment';
 import './components.css';
 import 'bootstrap/dist/css/bootstrap.css';
 
-import {updateWindowDimensions, sortDataBy, loadVehicles, updateSearchValue} from '../actions';
+import {updateWindowDimensions, sortDataBy, loadVehicles, updateSearchValue, updateSelectedVehicle} from '../actions';
 
-import {POST_SPECS, SORT_STYLE} from '../constants';
+import {POST_SPECS, SORT_STYLE, CALENDAR_STRINGS} from '../constants';
 import {posts} from '../locale.en';
 
 class BlinkestIndex extends Component {
@@ -64,10 +64,17 @@ class BlinkestIndex extends Component {
         this.props.updateSearchValue({newSearchText});
     };
 
-    renderTable = () => {
-        const {displayedPosts, searchText} = this.props;
+    onClickVehicleRow = (index) => {
+        const {displayedPosts} = this.props;
+        const selectedVehicle = displayedPosts[index];
 
-        if (searchText === null && displayedPosts.length === 0) {
+        this.props.updateSelectedVehicle({selectedVehicle});
+    };
+
+    renderTable = () => {
+        const {searchText, windowWidth, postsReady} = this.props;
+
+        if (!postsReady) {
             return (
                 <div className="text-center">
                     <h3 className="table-heading">Loading...</h3>
@@ -76,7 +83,7 @@ class BlinkestIndex extends Component {
             );
         }
 
-        const isSmallDevice = this.props.windowWidth < 768;
+        const isSmallDevice = windowWidth < 768;
 
         return (
             <div>
@@ -87,7 +94,7 @@ class BlinkestIndex extends Component {
 
                         <Col className="col-6 search-container">
                             <FormControl
-                                value={this.props.searchText}
+                                value={searchText}
                                 onChange={this.onSearchInputChange}
                                 className="filter-search" type="text"
                                 placeholder="Search"
@@ -172,13 +179,6 @@ class BlinkestIndex extends Component {
 
             const formattedMiles = Number(mileage).toLocaleString();
 
-            const calendarStrings = {
-                lastDay: '[Yesterday at] LT',
-                sameDay: '[Today at] LT',
-                lastWeek: '[last] dddd [at] LT',
-                sameElse: 'L'
-            };
-
             const isSmallDevice = this.props.windowWidth < 768;
 
             if (isSmallDevice) {
@@ -186,7 +186,9 @@ class BlinkestIndex extends Component {
                 const milesWithUnit = `${formattedMiles} mi`;
 
                 return (
-                    <Link to="/" key={index}>
+                    <Link to="/detail" className="data-row" key={index} onClick={() => {
+                        this.onClickVehicleRow(index)
+                    }}>
                         <Row className="top-small-row">
                             <Col className="smartphone-text col-12"><span>{combinedName}</span></Col>
                         </Row>
@@ -196,7 +198,7 @@ class BlinkestIndex extends Component {
                             <Col className="smartphone-text col-6">
                                     <span>
                                         <Moment
-                                            calendar={calendarStrings}
+                                            calendar={CALENDAR_STRINGS}
                                             date={createdAt}
                                         />
                                     </span>
@@ -207,8 +209,10 @@ class BlinkestIndex extends Component {
             }
 
             return (
-                <Link to="/" key={index}>
-                    <Row className="vehicle-row">
+                <Link to="/detail" key={index}>
+                    <Row className="vehicle-row data-row" onClick={() => {
+                        this.onClickVehicleRow(index)
+                    }}>
                         <Col className="table-text col-sm-2"><span>{year}</span></Col>
                         <Col className="table-text col-sm-2"><span>{make}</span></Col>
                         <Col className="table-text col-sm-2"><span>{model}</span></Col>
@@ -216,7 +220,7 @@ class BlinkestIndex extends Component {
                         <Col className="table-text col-sm-3">
                              <span>
                                 <Moment
-                                    calendar={calendarStrings}
+                                    calendar={CALENDAR_STRINGS}
                                     date={createdAt}
                                 />
                             </span>
@@ -242,9 +246,15 @@ class BlinkestIndex extends Component {
 
 function mapStateToProps(state) {
     const {windowWidth, windowHeight} = state.bootstrap;
-    const {sortStyle, sortKey, displayedPosts, searchText} = state.table;
+    const {sortStyle, sortKey, displayedPosts, searchText, postsReady} = state.table;
 
-    return {windowWidth, windowHeight, displayedPosts, sortStyle, sortKey, searchText};
+    return {windowWidth, windowHeight, displayedPosts, sortStyle, sortKey, searchText, postsReady};
 }
 
-export default connect(mapStateToProps, {updateWindowDimensions, sortDataBy, loadVehicles, updateSearchValue})(BlinkestIndex);
+export default connect(mapStateToProps, {
+    updateWindowDimensions,
+    sortDataBy,
+    loadVehicles,
+    updateSearchValue,
+    updateSelectedVehicle
+})(BlinkestIndex);

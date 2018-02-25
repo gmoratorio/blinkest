@@ -1,3 +1,5 @@
+
+/*BlinkdestIndex Styles*/
 .main-container {
     margin-bottom: 4em;
 }
@@ -42,19 +44,15 @@
     background-color: lightgrey;
 }
 
+.data-row {
+    cursor: pointer;
+}
+
 .vehicle-row-small {
     background-color: whitesmoke;
     padding-top: 1em;
     padding-bottom: 1em;
     border-bottom: 1px solid darkslategrey;
-}
-
-.small-row-container {
-    background-color: whitesmoke;
-}
-
-.small-row-container:hover {
-    background-color: lightgrey;
 }
 
 .top-small-row {
@@ -142,4 +140,23 @@
     font-size: 1em;
     padding-left: 0.25em;
     padding-top: 0.30em;
+}
+
+
+/*VehicleDetail Styles*/
+.detail-main-container {
+    max-width: 100vw;
+}
+
+.thumbnail {
+    max-width: 100%;
+}
+
+.back-button {
+    color: white;
+}
+
+.back-button:hover {
+    color: black;
+    text-decoration: none;
 }

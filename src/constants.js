@@ -13,3 +13,10 @@ export const POST_SPECS = {
     IMAGE_URL: 'imageUrl',
     CREATED_AT: 'createdAt'
 };
+
+export const CALENDAR_STRINGS = {
+    lastDay: '[Yesterday at] LT',
+    sameDay: '[Today at] LT',
+    lastWeek: '[last] dddd [at] LT',
+    sameElse: 'L'
+};
