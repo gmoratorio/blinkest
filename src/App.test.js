@@ -104,7 +104,7 @@ describe('Given a set of BootstrapActions', () => {
 
 describe('Given a BootstrapReducer', () => {
     describe('when the BootstrapReducer receives an action', () => {
-        it('then it should return the INTIAL_STATE by default', () => {
+        it('then it should return the current state by default', () => {
             const expectedState = {
                 windowWidth: 0,
                 windowHeight: 0
@@ -138,8 +138,43 @@ describe('Given a BootstrapReducer', () => {
 
 describe('Given a TableReducer', () => {
     describe('when the TableReducer receives an action', () => {
-        it('then it should return the INTIAL_STATE by default', () => {
-            const expectedState = {
+        let posts = [];
+        let initialState = {};
+        let initializedState = {};
+
+        beforeEach(() => {
+            posts = [
+                {
+                    year: 2013,
+                    make: "Kia",
+                    model: "Optima",
+                    mileage: 24235,
+                    drivetrain: "FWD",
+                    bodytype: "sedan",
+                    imageUrl: "http://www.optimaforums.com/forum/attachments/new-member-introductions/11137d1347548855-new-2013-kia-optima-sx-l-titanium-photo.jpg",
+                    createdAt: "2016-10-14T20:13:22.586Z"
+                },
+                {
+                    year: 2013,
+                    make: "Hyundai",
+                    model: "Accent",
+                    mileage: 21587,
+                    drivetrain: "FWD",
+                    bodytype: "sedan",
+                    imageUrl: "http://www.conceptcarz.com/images/Hyundai/2013-Hyundai-Accent-Sedan-Image-01.jpg",
+                    createdAt: "2016-10-14T20:13:22.586Z"
+                },
+                {
+                    year: 2014,
+                    make: "Nissan",
+                    model: "Juke",
+                    mileage: 10457,
+                    drivetrain: "FWD",
+                    bodytype: "CUV",
+                    imageUrl: "http://www.automobilesreview.com/gallery/2014-nissan-juke-nismo-rs/2014-nissan-juke-nismo-rs-08.jpg",
+                    createdAt: "2016-10-14T20:13:22.586Z"
+                }];
+            initialState = {
                 vehiclePosts: [],
                 displayedPosts: [],
                 sortKey: POST_SPECS.CREATED_AT,
@@ -149,26 +184,156 @@ describe('Given a TableReducer', () => {
                 selectedVehicle: {}
             };
 
-            const returnedState = TableReducer(undefined, {});
-
-            expect(returnedState).toEqual(expectedState);
+            initializedState = {
+                vehiclePosts: posts,
+                displayedPosts: posts,
+                sortKey: POST_SPECS.CREATED_AT,
+                sortStyle: SORT_STYLE.ASC,
+                searchText: '',
+                postsReady: true,
+                selectedVehicle: {}
+            };
         });
 
-        it('then it should return the UPDATED_DIMENSIONS', () => {
+        afterEach(() => {
+
+        });
+
+
+        it('then it should return the current state by default', () => {
+            const returnedState = TableReducer(initialState, {});
+
+            expect(returnedState).toEqual(initialState);
+        });
+
+        it('then it should return the correct state when VEHICLE_POSTS_READY', () => {
             const passedAction = {
-                type: UPDATED_DIMENSIONS,
+                type: VEHICLE_POSTS_READY,
                 payload: {
-                    windowWidth: 1234,
-                    windowHeight: 4242
+                    vehiclePosts: posts
                 }
             };
 
             const expectedState = {
-                windowWidth: 1234,
-                windowHeight: 4242
+                ...initialState,
+                vehiclePosts: posts,
+                displayedPosts: posts,
+                postsReady: true
             };
 
-            const returnedState = BootstrapReducer([], passedAction);
+            const returnedState = TableReducer(initialState, passedAction);
+
+            expect(returnedState).toEqual(expectedState);
+        });
+
+        it('then it should return the correct state when the vehicle RESULTS_SORTED', () => {
+            const passedAction = {
+                type: RESULTS_SORTED,
+                payload: {
+                    newSortKey: POST_SPECS.MILEAGE
+                }
+            };
+
+            const sortedPosts = [
+                {
+                    year: 2014,
+                    make: "Nissan",
+                    model: "Juke",
+                    mileage: 10457,
+                    drivetrain: "FWD",
+                    bodytype: "CUV",
+                    imageUrl: "http://www.automobilesreview.com/gallery/2014-nissan-juke-nismo-rs/2014-nissan-juke-nismo-rs-08.jpg",
+                    createdAt: "2016-10-14T20:13:22.586Z"
+                },
+                {
+                    year: 2013,
+                    make: "Hyundai",
+                    model: "Accent",
+                    mileage: 21587,
+                    drivetrain: "FWD",
+                    bodytype: "sedan",
+                    imageUrl: "http://www.conceptcarz.com/images/Hyundai/2013-Hyundai-Accent-Sedan-Image-01.jpg",
+                    createdAt: "2016-10-14T20:13:22.586Z"
+                },
+                {
+                    year: 2013,
+                    make: "Kia",
+                    model: "Optima",
+                    mileage: 24235,
+                    drivetrain: "FWD",
+                    bodytype: "sedan",
+                    imageUrl: "http://www.optimaforums.com/forum/attachments/new-member-introductions/11137d1347548855-new-2013-kia-optima-sx-l-titanium-photo.jpg",
+                    createdAt: "2016-10-14T20:13:22.586Z"
+                }];
+
+            const expectedState = {
+                ...initializedState,
+                sortKey: POST_SPECS.MILEAGE,
+                sortStyle: SORT_STYLE.ASC,
+                displayedPosts: sortedPosts
+            };
+
+            const returnedState = TableReducer(initializedState, passedAction);
+
+            expect(returnedState).toEqual(expectedState);
+        });
+
+        it('then it should return the correct state when we search and UPDATED_SEARCH_TEXT is fired', () => {
+            const passedAction = {
+                type: UPDATED_SEARCH_TEXT,
+                payload: {
+                    newSearchText: '2013 kia'
+                }
+            };
+
+            const filteredPosts = [
+                {
+                    year: 2013,
+                    make: "Kia",
+                    model: "Optima",
+                    mileage: 24235,
+                    drivetrain: "FWD",
+                    bodytype: "sedan",
+                    imageUrl: "http://www.optimaforums.com/forum/attachments/new-member-introductions/11137d1347548855-new-2013-kia-optima-sx-l-titanium-photo.jpg",
+                    createdAt: "2016-10-14T20:13:22.586Z"
+                }];
+
+            const expectedState = {
+                ...initializedState,
+                searchText: '2013 kia',
+                displayedPosts: filteredPosts
+            };
+
+            const returnedState = TableReducer(initializedState, passedAction);
+
+            expect(returnedState).toEqual(expectedState);
+        });
+
+        it('then it should return the correct state when VEHICLE_SELECTED', () => {
+            const selectedVehicle = {
+                year: 2014,
+                make: "Nissan",
+                model: "Juke",
+                mileage: 10457,
+                drivetrain: "FWD",
+                bodytype: "CUV",
+                imageUrl: "http://www.automobilesreview.com/gallery/2014-nissan-juke-nismo-rs/2014-nissan-juke-nismo-rs-08.jpg",
+                createdAt: "2016-10-14T20:13:22.586Z"
+            };
+
+            const passedAction = {
+                type: VEHICLE_SELECTED,
+                payload: {
+                    selectedVehicle
+                }
+            };
+
+            const expectedState = {
+                ...initializedState,
+                selectedVehicle
+            };
+
+            const returnedState = TableReducer(initializedState, passedAction);
 
             expect(returnedState).toEqual(expectedState);
         });
