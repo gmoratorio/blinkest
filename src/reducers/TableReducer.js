@@ -10,7 +10,7 @@ import {SORT_STYLE, POST_SPECS} from '../constants';
 
 const INITIAL_STATE = {
     vehiclePosts: [],
-    filteredPosts: [],
+    displayedPosts: [],
     sortKey: POST_SPECS.CREATED_AT,
     sortStyle: SORT_STYLE.ASC,
     searchText: null
@@ -46,7 +46,7 @@ const filterPosts = ({posts, searchText}) => {
                 if(!_.isNaN(attemptedNumberConversion) && _.isNumber(attemptedNumberConversion)){
                     return attemptedNumberConversion === value;
                 } else {
-                    return _.includes(value, searchEntry);
+                    return _.includes(_.lowerCase(value), _.lowerCase(searchEntry));
                 }
             });
         });
@@ -62,10 +62,10 @@ export default (state = INITIAL_STATE, action) => {
 
     switch (type) {
         case VEHICLE_POSTS_READY:
-            return {...state, vehiclePosts: payload.vehiclePosts, filteredPosts: payload.vehiclePosts};
+            return {...state, vehiclePosts: payload.vehiclePosts, displayedPosts: payload.vehiclePosts};
 
         case RESULTS_SORTED:
-            const {sortKey, sortStyle, vehiclePosts} = state;
+            const {sortKey, sortStyle, displayedPosts} = state;
             const {newSortKey} = payload;
 
             let nextSortStyle = SORT_STYLE.ASC;
@@ -73,16 +73,16 @@ export default (state = INITIAL_STATE, action) => {
                 nextSortStyle = sortStyle === SORT_STYLE.ASC ? SORT_STYLE.DESC : SORT_STYLE.ASC;
             }
 
-            let sortedPosts = sortPosts({posts: vehiclePosts, sortKey: newSortKey, sortOrder: nextSortStyle});
+            let sortedPosts = sortPosts({posts: displayedPosts, sortKey: newSortKey, sortOrder: nextSortStyle});
 
-            return {...state, sortKey: newSortKey, sortStyle: nextSortStyle, vehiclePosts: sortedPosts};
+            return {...state, sortKey: newSortKey, sortStyle: nextSortStyle, displayedPosts: sortedPosts};
 
         case UPDATED_SEARCH_TEXT:
             const {newSearchText} = payload;
 
             let filteredPosts = filterPosts({posts: state.vehiclePosts, searchText: newSearchText});
 
-            return {...state, searchText: newSearchText, filteredPosts: filteredPosts}
+            return {...state, searchText: newSearchText, displayedPosts: filteredPosts}
 
         default:
             return state;
