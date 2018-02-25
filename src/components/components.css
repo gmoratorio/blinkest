@@ -65,7 +65,7 @@
 
 .table-header-title {
     font-weight: bold;
-    font-size: 2em;
+    font-size: 1.5em;
     color: black;
     background: none;
     padding: 0;
@@ -86,7 +86,7 @@
 
 .table-header-title-small {
     font-weight: bold;
-    font-size: 1em;
+    font-size: 0.75em;
     color: black;
     background: none;
     padding: 0;
@@ -116,7 +116,7 @@
 }
 
 .smartphone-text {
-    font-size: 1em;
+    font-size: 0.75em;
 }
 
 .spinner-large {

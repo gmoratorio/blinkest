@@ -29,19 +29,24 @@ class BlinkestIndex extends Component {
 
     renderColumnHeader = (columnName) => {
         const {sortStyle, sortKey} = this.props;
-        const {postDetail} = posts;
+        const {postDetail, postDetailShort} = posts;
+
+        const isSmallDevice = this.props.windowWidth < 768;
+
+        const constForStrings = isSmallDevice ? postDetailShort : postDetail;
+        const textValue = constForStrings[columnName];
 
         if (columnName !== sortKey) {
             return (
                 <span>
-                    {postDetail[columnName]}
+                    {textValue}
                 </span>
             );
         } else {
 
             return (
                 <span className="selected-column">
-                    {postDetail[columnName]}
+                    {textValue}
                     <Octicon className="sort-icon" name={sortStyle === SORT_STYLE.ASC ? 'arrow-up' : 'arrow-down'}/>
                 </span>
             );
@@ -167,8 +172,8 @@ class BlinkestIndex extends Component {
                         </Row>
 
                         <Row className="bottom-small-row">
-                            <Col className="smartphone-text col-4"><span>{milesWithUnit}</span></Col>
-                            <Col className="smartphone-text col-8">
+                            <Col className="smartphone-text col-6"><span>{milesWithUnit}</span></Col>
+                            <Col className="smartphone-text col-6">
                                     <span>
                                         <Moment
                                             calendar={calendarStrings}
