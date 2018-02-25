@@ -65,9 +65,9 @@ class BlinkestIndex extends Component {
     };
 
     renderTable = () => {
-        const {filteredPosts, searchText} = this.props;
+        const {displayedPosts, searchText} = this.props;
 
-        if (searchText === null && filteredPosts.length === 0) {
+        if (searchText === null && displayedPosts.length === 0) {
             return (
                 <div className="text-center">
                     <h3 className="table-heading">Loading...</h3>
@@ -165,9 +165,9 @@ class BlinkestIndex extends Component {
     };
 
     renderVehicles = () => {
-        const {filteredPosts} = this.props;
+        const {displayedPosts} = this.props;
 
-        return _.map(filteredPosts, (car, index) => {
+        return _.map(displayedPosts, (car, index) => {
             const {createdAt, year, make, model, mileage} = car;
 
             const formattedMiles = Number(mileage).toLocaleString();
@@ -242,9 +242,9 @@ class BlinkestIndex extends Component {
 
 function mapStateToProps(state) {
     const {windowWidth, windowHeight} = state.bootstrap;
-    const {sortStyle, sortKey, filteredPosts, searchText} = state.table;
+    const {sortStyle, sortKey, displayedPosts, searchText} = state.table;
 
-    return {windowWidth, windowHeight, filteredPosts, sortStyle, sortKey, searchText};
+    return {windowWidth, windowHeight, displayedPosts, sortStyle, sortKey, searchText};
 }
 
 export default connect(mapStateToProps, {updateWindowDimensions, sortDataBy, loadVehicles, updateSearchValue})(BlinkestIndex);
