@@ -3,7 +3,8 @@ import _ from 'lodash';
 import {
     RESULTS_SORTED,
     VEHICLE_POSTS_READY,
-    UPDATED_SEARCH_TEXT
+    UPDATED_SEARCH_TEXT,
+    VEHICLE_SELECTED
 } from '../actions/types';
 
 import {SORT_STYLE, POST_SPECS} from '../constants';
@@ -13,7 +14,9 @@ const INITIAL_STATE = {
     displayedPosts: [],
     sortKey: POST_SPECS.CREATED_AT,
     sortStyle: SORT_STYLE.ASC,
-    searchText: null
+    searchText: '',
+    postsReady: false,
+    selectedVehicle: {}
 };
 
 const sortPosts = ({posts, sortKey, sortOrder}) => {
@@ -40,10 +43,10 @@ const filterPosts = ({posts, searchText}) => {
         const prunedPost = _.pick(post, [POST_SPECS.YEAR, POST_SPECS.MAKE, POST_SPECS.MODEL]);
 
         return _.every(searchArray, (searchEntry) => {
-            return !!_.find(prunedPost, (value) =>{
+            return !!_.find(prunedPost, (value) => {
                 const attemptedNumberConversion = _.toNumber(searchEntry);
 
-                if(!_.isNaN(attemptedNumberConversion) && _.isNumber(attemptedNumberConversion)){
+                if (!_.isNaN(attemptedNumberConversion) && _.isNumber(attemptedNumberConversion)) {
                     return attemptedNumberConversion === value;
                 } else {
                     return _.includes(_.lowerCase(value), _.lowerCase(searchEntry));
@@ -62,7 +65,12 @@ export default (state = INITIAL_STATE, action) => {
 
     switch (type) {
         case VEHICLE_POSTS_READY:
-            return {...state, vehiclePosts: payload.vehiclePosts, displayedPosts: payload.vehiclePosts};
+            return {
+                ...state,
+                vehiclePosts: payload.vehiclePosts,
+                displayedPosts: payload.vehiclePosts,
+                postsReady: true
+            };
 
         case RESULTS_SORTED:
             const {sortKey, sortStyle, displayedPosts} = state;
@@ -82,7 +90,11 @@ export default (state = INITIAL_STATE, action) => {
 
             let filteredPosts = filterPosts({posts: state.vehiclePosts, searchText: newSearchText});
 
-            return {...state, searchText: newSearchText, displayedPosts: filteredPosts}
+            return {...state, searchText: newSearchText, displayedPosts: filteredPosts};
+
+        case VEHICLE_SELECTED:
+            const {selectedVehicle} = payload;
+            return {...state, selectedVehicle};
 
         default:
             return state;

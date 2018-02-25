@@ -5,6 +5,9 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 
 import BlinkestIndex from './components/BlinkestIndex';
+import VehicleDetail from './components/VehicleDetail';
+
+
 import store from './store';
 
 class App extends Component {
@@ -13,11 +16,10 @@ class App extends Component {
         return (
             <Provider store={store} r>
                 <BrowserRouter>
-                    <div>
-                        <Switch>
-                            <Route path="/" component={BlinkestIndex}/>
-                        </Switch>
-                    </div>
+                    <Switch>
+                        <Route exact path="/" component={BlinkestIndex}/>
+                        <Route path="/detail" component={VehicleDetail}/>
+                    </Switch>
                 </BrowserRouter>
             </Provider>
         );

@@ -4,7 +4,8 @@ import _ from "lodash";
 import {
     RESULTS_SORTED,
     VEHICLE_POSTS_READY,
-    UPDATED_SEARCH_TEXT
+    UPDATED_SEARCH_TEXT,
+    VEHICLE_SELECTED
 } from './types';
 
 const vehicleURL = `https://gist.githubusercontent.com/creatifyme/2a334c00a117097bfdb47f031edf292c/raw/fa62f0435c2478179e87c469037f2381fa181d80/cars.json`;
@@ -140,6 +141,14 @@ export const updateSearchValue = ({newSearchText}) => {
     return {
         type: UPDATED_SEARCH_TEXT,
         payload: {newSearchText}
+    }
+};
+
+export const updateSelectedVehicle = ({selectedVehicle}) => {
+
+    return {
+        type: VEHICLE_SELECTED,
+        payload: {selectedVehicle}
     }
 
 };
