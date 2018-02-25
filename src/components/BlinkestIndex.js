@@ -89,8 +89,9 @@ class BlinkestIndex extends Component {
             <div>
                 <Grid>
                     <Row>
-                        <Col className={isSmallDevice ? 'table-heading-small col-6' : 'table-heading col-6'}>Available
-                            Vehicles</Col>
+                        <Col className={isSmallDevice ? 'table-heading-small col-6' : 'table-heading col-6'}>
+                            Available Vehicles
+                        </Col>
 
                         <Col className="col-6 search-container">
                             <FormControl
@@ -232,10 +233,11 @@ class BlinkestIndex extends Component {
     };
 
     render() {
+        const isSmallDevice = this.props.windowWidth < 768;
 
         return (
             <div className="container main-container">
-                <h1 className="text-center main-heading">Welcome to Blinkest!</h1>
+                <h1 className={isSmallDevice ? 'text-center main-heading-small' : 'text-center main-heading'}>Welcome to Blinkest!</h1>
 
                 {this.renderTable()}
             </div>

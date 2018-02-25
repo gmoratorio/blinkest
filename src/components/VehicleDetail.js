@@ -11,7 +11,7 @@ import fallbackImage from '../assets/image_unavailable.jpg';
 
 class VehicleDetail extends Component {
 
-    handleImageError = (event) =>{
+    handleImageError = (event) => {
         console.log(event);
         event.target.setAttribute('src', fallbackImage);
     };
@@ -19,12 +19,12 @@ class VehicleDetail extends Component {
     renderDetail() {
         const {selectedVehicle} = this.props;
 
-        const {createdAt, year, make, model, mileage, drivetrain, bodytype, imageUrl} = selectedVehicle;
+        const {createdAt, year, make, model, mileage, drivetrain = '', bodytype = '', imageUrl} = selectedVehicle;
 
         const formattedMiles = Number(mileage).toLocaleString();
         const combinedName = `${year} ${make} ${model}`;
         const milesWithUnit = `${formattedMiles} mi`;
-        const fullDescription = `${drivetrain} ${bodytype} - ${milesWithUnit}`;
+        const fullDescription = drivetrain || bodytype ? `${drivetrain} ${bodytype} - ${milesWithUnit}` : milesWithUnit;
         const postDateDetail = `Posted on: `;
 
         return (
