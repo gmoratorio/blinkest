@@ -8,7 +8,22 @@
 }
 
 .table-heading {
+    font-size: 2em;
+    font-weight: bold;
+}
 
+.table-heading-small {
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.filter-search {
+    display: inline-block;
+}
+
+.search-container {
+    display: flex;
+    justify-content: flex-end;
 }
 
 .table-container {

@@ -1,6 +1,7 @@
 import {
     RESULTS_SORTED,
-    VEHICLE_POSTS_READY
+    VEHICLE_POSTS_READY,
+    UPDATED_SEARCH_TEXT
 } from './types';
 
 import _ from "lodash";
@@ -116,6 +117,15 @@ export const sortDataBy = ({newSortKey}) => {
     return {
         type: RESULTS_SORTED,
         payload: {newSortKey}
+    }
+
+};
+
+export const updateSearchValue = ({newSearchText}) => {
+
+    return {
+        type: UPDATED_SEARCH_TEXT,
+        payload: {newSearchText}
     }
 
 };

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import {Grid, Row, Col, Button} from 'react-bootstrap';
+import {Grid, Row, Col, Button, FormControl} from 'react-bootstrap';
 import Octicon from 'react-octicon'
 
 import _ from 'lodash';
@@ -10,7 +10,7 @@ import Moment from 'react-moment';
 import './components.css';
 import 'bootstrap/dist/css/bootstrap.css';
 
-import {updateWindowDimensions, sortDataBy, loadVehicles} from '../actions';
+import {updateWindowDimensions, sortDataBy, loadVehicles, updateSearchValue} from '../actions';
 
 import {POST_SPECS, SORT_STYLE} from '../constants';
 import {posts} from '../locale.en';
@@ -58,10 +58,16 @@ class BlinkestIndex extends Component {
         this.props.sortDataBy({newSortKey});
     };
 
-    renderTable = () => {
-        const {vehiclePosts, sortStyle, sortKey} = this.props;
+    onSearchInputChange = (event) => {
+        const newSearchText = event.target.value;
 
-        if (vehiclePosts.length === 0) {
+        this.props.updateSearchValue({newSearchText});
+    };
+
+    renderTable = () => {
+        const {filteredPosts, searchText} = this.props;
+
+        if (searchText === null && filteredPosts.length === 0) {
             return (
                 <div className="text-center">
                     <h3 className="table-heading">Loading...</h3>
@@ -74,7 +80,21 @@ class BlinkestIndex extends Component {
 
         return (
             <div>
-                <h3 className="table-heading">Available Vehicles</h3>
+                <Grid>
+                    <Row>
+                        <Col className={isSmallDevice ? 'table-heading-small col-6' : 'table-heading col-6'}>Available
+                            Vehicles</Col>
+
+                        <Col className="col-6 search-container">
+                            <FormControl
+                                value={this.props.searchText}
+                                onChange={this.onSearchInputChange}
+                                className="filter-search" type="text"
+                                placeholder="Search"
+                            />
+                        </Col>
+                    </Row>
+                </Grid>
 
                 <div className="table-container">
                     <Grid>
@@ -145,9 +165,9 @@ class BlinkestIndex extends Component {
     };
 
     renderVehicles = () => {
-        const {vehiclePosts} = this.props;
+        const {filteredPosts} = this.props;
 
-        return _.map(vehiclePosts, (car, index) => {
+        return _.map(filteredPosts, (car, index) => {
             const {createdAt, year, make, model, mileage} = car;
 
             const formattedMiles = Number(mileage).toLocaleString();
@@ -222,9 +242,9 @@ class BlinkestIndex extends Component {
 
 function mapStateToProps(state) {
     const {windowWidth, windowHeight} = state.bootstrap;
-    const {sortStyle, sortKey, vehiclePosts} = state.table;
+    const {sortStyle, sortKey, filteredPosts, searchText} = state.table;
 
-    return {windowWidth, windowHeight, vehiclePosts, sortStyle, sortKey};
+    return {windowWidth, windowHeight, filteredPosts, sortStyle, sortKey, searchText};
 }
 
-export default connect(mapStateToProps, {updateWindowDimensions, sortDataBy, loadVehicles})(BlinkestIndex);
+export default connect(mapStateToProps, {updateWindowDimensions, sortDataBy, loadVehicles, updateSearchValue})(BlinkestIndex);
