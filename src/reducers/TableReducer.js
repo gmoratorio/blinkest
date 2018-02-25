@@ -4,7 +4,8 @@ import {
     RESULTS_SORTED,
     VEHICLE_POSTS_READY,
     UPDATED_SEARCH_TEXT,
-    VEHICLE_SELECTED
+    VEHICLE_SELECTED,
+    CLEAR_SELECTED_VEHICLE
 } from '../actions/types';
 
 import {SORT_STYLE, POST_SPECS} from '../constants';
@@ -95,6 +96,9 @@ export default (state = INITIAL_STATE, action) => {
         case VEHICLE_SELECTED:
             const {selectedVehicle} = payload;
             return {...state, selectedVehicle};
+
+        case CLEAR_SELECTED_VEHICLE:
+            return INITIAL_STATE;
 
         default:
             return state;
