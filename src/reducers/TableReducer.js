@@ -46,7 +46,7 @@ const filterPosts = ({posts, searchText}) => {
                 if(!_.isNaN(attemptedNumberConversion) && _.isNumber(attemptedNumberConversion)){
                     return attemptedNumberConversion === value;
                 } else {
-                    return _.includes(value, searchEntry);
+                    return _.includes(_.lowerCase(value), _.lowerCase(searchEntry));
                 }
             });
         });

@@ -1,10 +1,13 @@
+import axios from 'axios';
+import _ from "lodash";
+
 import {
     RESULTS_SORTED,
     VEHICLE_POSTS_READY,
     UPDATED_SEARCH_TEXT
 } from './types';
 
-import _ from "lodash";
+const vehicleURL = `https://gist.githubusercontent.com/creatifyme/2a334c00a117097bfdb47f031edf292c/raw/fa62f0435c2478179e87c469037f2381fa181d80/cars.json`;
 
 const sampleData = [
     {
@@ -93,21 +96,32 @@ const sampleData = [
 
 export const loadVehicles = () => {
     return async (dispatch) => {
-        const preparedData = _.map(sampleData, post => {
-            const preparedPost = _.reduce(post, (acc, value, key) => {
-                const deserializedKey = _.camelCase(key);
 
-                acc[deserializedKey] = value;
-                return acc;
-            }, {});
+        debugger;
+        try {
+            // let vehicleResponse = await fetch(vehicleURL);
+            // let vehicles = await vehicleResponse.json();
 
-            return preparedPost;
-        });
+            const preparedData = _.map(sampleData, post => {
+                const preparedPost = _.reduce(post, (acc, value, key) => {
+                    const deserializedKey = _.camelCase(key);
 
-        dispatch({
-            type: VEHICLE_POSTS_READY,
-            payload: {vehiclePosts: preparedData}
-        });
+                    acc[deserializedKey] = value;
+                    return acc;
+                }, {});
+
+                return preparedPost;
+            });
+
+            dispatch({
+                type: VEHICLE_POSTS_READY,
+                payload: {vehiclePosts: preparedData}
+            });
+        } catch (e) {
+            console.log(e);
+        }
+
+
     }
 
 };
