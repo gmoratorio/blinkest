@@ -6,6 +6,8 @@ import {Grid, Row, Col, Thumbnail, Button, Image} from 'react-bootstrap';
 import _ from 'lodash';
 import Moment from 'react-moment';
 
+import {clearSelectedVehicle} from '../actions';
+
 import {CALENDAR_STRINGS} from '../constants';
 import fallbackImage from '../assets/image_unavailable.jpg';
 
@@ -14,6 +16,10 @@ class VehicleDetail extends Component {
     handleImageError = (event) => {
         console.log(event);
         event.target.setAttribute('src', fallbackImage);
+    };
+
+    onClickBack = () => {
+        this.props.clearSelectedVehicle();
     };
 
     renderDetail() {
@@ -45,8 +51,11 @@ class VehicleDetail extends Component {
                             </p>
 
                             <p>
-                                <Button bsStyle="primary"><Link to="/" className="back-button">Back to
-                                    List</Link></Button>
+                                <Button bsStyle="primary" onClick={this.onClickBack}>
+                                    <Link to="/" className="back-button">
+                                        Back to List
+                                    </Link>
+                                </Button>
                             </p>
                         </Thumbnail>
                     </Col>
@@ -78,5 +87,5 @@ const mapStateToProps = (state) => {
 };
 
 
-export default connect(mapStateToProps, {})(VehicleDetail);
+export default connect(mapStateToProps, {clearSelectedVehicle})(VehicleDetail);
 

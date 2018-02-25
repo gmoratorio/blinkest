@@ -33,16 +33,12 @@
     justify-content: flex-end;
 }
 
-.table-container {
-    border-top: 1px solid darkslategrey;
-    border-left: 1px solid darkslategrey;
-    border-right: 1px solid darkslategrey;
-}
-
 .vehicle-row {
     background-color: whitesmoke;
     padding: 2em;
     border-bottom: 1px solid darkslategrey;
+    border-left: 1px solid darkslategrey;
+    border-right: 1px solid darkslategrey;
 }
 
 .vehicle-row:hover {
@@ -57,11 +53,13 @@
     text-decoration: none;
 }
 
-.vehicle-row-small {
+.vehicle-header-row-small {
     background-color: whitesmoke;
     padding-top: 1em;
     padding-bottom: 1em;
     border-bottom: 1px solid darkslategrey;
+    border-left: 1px solid darkslategrey;
+    border-right: 1px solid darkslategrey;
 }
 
 .top-small-row {
@@ -71,6 +69,8 @@
     padding-top: 1em;
     padding-bottom: 0.5em;
     padding-left: 2em;
+    border-left: 1px solid darkslategrey;
+    border-right: 1px solid darkslategrey;
 }
 
 .bottom-small-row {
@@ -78,10 +78,13 @@
     padding-bottom: 1em;
     border-bottom: 1px solid darkslategrey;
     padding-left: 2.5em;
+    border-left: 1px solid darkslategrey;
+    border-right: 1px solid darkslategrey;
 }
 
 .header-row {
     border-bottom: 1px solid darkslategrey;
+    border-top: 1px solid darkslategrey;
     background-color: lightgrey;
 }
 

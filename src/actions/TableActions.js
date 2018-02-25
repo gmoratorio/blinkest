@@ -5,7 +5,8 @@ import {
     RESULTS_SORTED,
     VEHICLE_POSTS_READY,
     UPDATED_SEARCH_TEXT,
-    VEHICLE_SELECTED
+    VEHICLE_SELECTED,
+    CLEAR_SELECTED_VEHICLE
 } from './types';
 
 const vehicleURL = `https://gist.githubusercontent.com/creatifyme/2a334c00a117097bfdb47f031edf292c/raw/fa62f0435c2478179e87c469037f2381fa181d80/cars.json`;
@@ -152,4 +153,10 @@ export const updateSelectedVehicle = ({selectedVehicle}) => {
         payload: {selectedVehicle}
     }
 
+};
+
+export const clearSelectedVehicle = () => {
+    return {
+        type: CLEAR_SELECTED_VEHICLE
+    }
 };
