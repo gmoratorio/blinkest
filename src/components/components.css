@@ -1,12 +1,17 @@
-
 /*BlinkdestIndex Styles*/
 .main-container {
     margin-bottom: 4em;
 }
 
 .main-heading {
-    margin-top: 2em;
-    margin-bottom: 2em;
+    margin-top: 1em;
+    margin-bottom: 1.5em;
+}
+
+.main-heading-small {
+    margin-top: 1em;
+    margin-bottom: 1.5em;
+    font-size: 1.5em;
 }
 
 .table-heading {
@@ -141,7 +146,6 @@
     padding-left: 0.25em;
     padding-top: 0.30em;
 }
-
 
 /*VehicleDetail Styles*/
 .detail-main-container {
