@@ -187,7 +187,7 @@ class BlinkestIndex extends Component {
                 const milesWithUnit = `${formattedMiles} mi`;
 
                 return (
-                    <Link to="/detail" className="data-row" key={index} onClick={() => {
+                    <Link to="/detail" className="data-row disable-link-style" key={index} onClick={() => {
                         this.onClickVehicleRow(index)
                     }}>
                         <Row className="top-small-row">
@@ -210,8 +210,8 @@ class BlinkestIndex extends Component {
             }
 
             return (
-                <Link to="/detail" key={index}>
-                    <Row className="vehicle-row data-row" onClick={() => {
+                <Link to="/detail" className="data-row disable-link-style" key={index}>
+                    <Row className="vehicle-row" onClick={() => {
                         this.onClickVehicleRow(index)
                     }}>
                         <Col className="table-text col-sm-2"><span>{year}</span></Col>
