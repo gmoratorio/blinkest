@@ -98,12 +98,13 @@ const sampleData = [
 export const loadVehicles = () => {
     return async (dispatch) => {
 
-        debugger;
         try {
-            // let vehicleResponse = await fetch(vehicleURL);
+            // let vehicleResponse = await axios.get(vehicleURL);
             // let vehicles = await vehicleResponse.json();
 
-            const preparedData = _.map(sampleData, post => {
+            let vehicles = sampleData;
+
+            const preparedData = _.map(vehicles, post => {
                 const preparedPost = _.reduce(post, (acc, value, key) => {
                     const deserializedKey = _.camelCase(key);
 
