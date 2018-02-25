@@ -53,6 +53,10 @@
     cursor: pointer;
 }
 
+.disable-link-style:hover {
+    text-decoration: none;
+}
+
 .vehicle-row-small {
     background-color: whitesmoke;
     padding-top: 1em;
