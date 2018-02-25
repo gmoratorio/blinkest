@@ -1,5 +1,5 @@
 import {
-    APPLICATION_READY,
+    VEHICLE_POSTS_READY,
     UPDATED_DIMENSIONS
 } from '../actions/types';
 
@@ -13,9 +13,6 @@ export default (state = INITIAL_STATE, action) => {
     const {type, payload} = action;
 
     switch (type) {
-        case APPLICATION_READY:
-            return state;
-
         case UPDATED_DIMENSIONS:
             const {windowWidth, windowHeight} = payload;
             return {...state, windowWidth, windowHeight};

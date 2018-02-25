@@ -23,6 +23,17 @@
     border-bottom: 1px solid darkslategrey;
 }
 
+.vehicle-row:hover {
+    background-color: lightgrey;
+}
+
+.vehicle-row-small {
+    background-color: whitesmoke;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    border-bottom: 1px solid darkslategrey;
+}
+
 .small-row-container {
     background-color: whitesmoke;
 }
@@ -47,17 +58,57 @@
     padding-left: 2.5em;
 }
 
-.vehicle-row:hover {
-    background-color: lightgrey;
-}
-
 .header-row {
     border-bottom: 1px solid darkslategrey;
+    background-color: lightgrey;
 }
 
 .table-header-title {
     font-weight: bold;
-    font-size: 2em;
+    font-size: 1.5em;
+    color: black;
+    background: none;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+
+}
+
+.table-header-title:focus {
+    border: none;
+    box-shadow: none;
+}
+
+.table-header-title:hover {
+    color: white;
+    text-decoration: none;
+}
+
+.table-header-title-small {
+    font-weight: bold;
+    font-size: 0.75em;
+    color: black;
+    background: none;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+}
+
+.table-header-title-small:focus {
+    border: none;
+    box-shadow: none;
+}
+
+.table-header-title-small:hover {
+    color: white;
+    text-decoration: none;
+}
+
+.selected-column {
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .table-text {
@@ -65,5 +116,15 @@
 }
 
 .smartphone-text {
+    font-size: 0.75em;
+}
+
+.spinner-large {
+    font-size: 12em;
+}
+
+.sort-icon {
     font-size: 1em;
+    padding-left: 0.25em;
+    padding-top: 0.30em;
 }

@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import {Grid, Row, Col} from 'react-bootstrap';
+import {Grid, Row, Col, Button} from 'react-bootstrap';
+import Octicon from 'react-octicon'
 
 import _ from 'lodash';
 import Moment from 'react-moment';
@@ -9,95 +10,16 @@ import Moment from 'react-moment';
 import './components.css';
 import 'bootstrap/dist/css/bootstrap.css';
 
-import {updateWindowDimensions} from '../actions';
+import {updateWindowDimensions, sortDataBy, loadVehicles} from '../actions';
 
-const sampleData = [
-    {
-        "year": 2013,
-        "make": "Kia",
-        "model": "Optima",
-        "mileage": 24235,
-        "drivetrain": "FWD",
-        "bodytype": "sedan",
-        "image_url": "http://www.optimaforums.com/forum/attachments/new-member-introductions/11137d1347548855-new-2013-kia-optima-sx-l-titanium-photo.jpg",
-        "created_at": "2016-10-14T20:13:22.586Z"
-    },
-    {
-        "year": 2013,
-        "make": "Hyundai",
-        "model": "Accent",
-        "mileage": 21587,
-        "drivetrain": "FWD",
-        "bodytype": "sedan",
-        "image_url": "http://www.conceptcarz.com/images/Hyundai/2013-Hyundai-Accent-Sedan-Image-01.jpg",
-        "created_at": "2016-10-14T20:13:22.586Z"
-    },
-    {
-        "year": 2014,
-        "make": "Nissan",
-        "model": "Juke",
-        "mileage": 10457,
-        "drivetrain": "FWD",
-        "bodytype": "CUV",
-        "image_url": "http://www.automobilesreview.com/gallery/2014-nissan-juke-nismo-rs/2014-nissan-juke-nismo-rs-08.jpg",
-        "created_at": "2016-10-14T20:13:22.586Z"
-    },
-    {
-        "year": 2014,
-        "make": "Land Rover",
-        "model": "Range Rover",
-        "mileage": 7458,
-        "drivetrain": "4x4",
-        "bodytype": "SUV",
-        "image_url": "http://st.motortrend.com/uploads/sites/10/2015/09/2014-Range-Rover-Autobiography-Black-Edition-front-three-quarters.jpg",
-        "created_at": "2016-10-14T20:13:22.586Z"
-    },
-    {
-        "year": 2014,
-        "make": "Jaguar",
-        "model": "XK",
-        "mileage": 9852,
-        "drivetrain": "RWD",
-        "bodytype": "convertible",
-        "image_url": "http://st.motortrend.com/uploads/sites/10/2015/09/2014-Jaguar-XKR-S-GT-front-three-quarter-in-motion-02.jpg",
-        "created_at": "2016-10-14T20:13:22.586Z"
-    },
-    {
-        "year": 2013,
-        "make": "Audi",
-        "model": "A5",
-        "mileage": 17216,
-        "image_url": "http://st.motortrend.com/uploads/sites/5/2012/07/2013-Audi-A5-front-three-quarter-in-motion.jpg",
-        "created_at": "2016-10-14T20:13:22.586Z"
-    },
-    {
-        "year": 2013,
-        "make": "Jeep",
-        "model": "Wrangler Unlimited",
-        "mileage": 19000,
-        "image_url": "http://blog.caranddriver.com/wp-content/uploads/2014/07/2013-Jeep-Wrangler-Unlimited-Rubicon-10th-Anniversary-Edition-PLACEMENT.jpg",
-        "created_at": "2016-10-14T20:13:22.586Z"
-    },
-    {
-        "year": 1999,
-        "make": "BMW",
-        "model": "528i",
-        "mileage": 160254,
-        "image_url": "http://intorg.netfirms.com/Cars8/1999_BMW_528/DrQuarter2.jpg",
-        "created_at": "2016-10-14T20:13:22.586Z"
-    },
-    {
-        "year": 2016,
-        "make": "Lincoln",
-        "model": "MKX",
-        "mileage": 1545,
-        "image_url": "http://st.motortrend.com/uploads/sites/10/2015/09/2016-Lincoln-MKX-front-three-quarter.jpg",
-        "created_at": "2016-10-14T20:13:22.586Z"
-    }
-];
+import {POST_SPECS, SORT_STYLE} from '../constants';
+import {posts} from '../locale.en';
 
 class BlinkestIndex extends Component {
 
+    componentWillMount() {
+        this.props.loadVehicles();
+    }
 
     componentDidMount() {
         this.props.updateWindowDimensions();
@@ -105,39 +27,128 @@ class BlinkestIndex extends Component {
         window.addEventListener('resize', this.props.updateWindowDimensions);
     }
 
-    renderTable = () => {
+    renderColumnHeader = (columnName) => {
+        const {sortStyle, sortKey} = this.props;
+        const {postDetail, postDetailShort} = posts;
 
         const isSmallDevice = this.props.windowWidth < 768;
 
-        if (isSmallDevice) {
+        const constForStrings = isSmallDevice ? postDetailShort : postDetail;
+        const textValue = constForStrings[columnName];
+
+        if (columnName !== sortKey) {
             return (
-                <div className="table-container">
-                    <Grid>
-                        {this.renderCars()}
-                    </Grid>
+                <span>
+                    {textValue}
+                </span>
+            );
+        } else {
+
+            return (
+                <span className="selected-column">
+                    {textValue}
+                    <Octicon className="sort-icon" name={sortStyle === SORT_STYLE.ASC ? 'arrow-up' : 'arrow-down'}/>
+                </span>
+            );
+        }
+
+    };
+
+    onClickSort = (newSortKey) => {
+        this.props.sortDataBy({newSortKey});
+    };
+
+    renderTable = () => {
+        const {vehiclePosts, sortStyle, sortKey} = this.props;
+
+        if (vehiclePosts.length === 0) {
+            return (
+                <div className="text-center">
+                    <h3 className="table-heading">Loading...</h3>
+                    <Octicon className="spinner-large" spin name="sync"/>
                 </div>
             );
         }
 
+        const isSmallDevice = this.props.windowWidth < 768;
+
         return (
-            <div className="table-container">
-                <Grid>
-                    <Row className="hidden-sm-down vehicle-row header-row">
-                        <Col md={2}><span className="table-header-title">Year</span></Col>
-                        <Col md={2}><span className="table-header-title">Make</span></Col>
-                        <Col md={2}><span className="table-header-title">Model</span></Col>
-                        <Col md={3}><span className="table-header-title">Mileage</span></Col>
-                        <Col md={3}><span className="table-header-title">Date</span></Col>
-                    </Row>
-                    {this.renderCars()}
-                </Grid>
+            <div>
+                <h3 className="table-heading">Available Vehicles</h3>
+
+                <div className="table-container">
+                    <Grid>
+                        <Row className={isSmallDevice ? 'vehicle-row-small header-row' : 'vehicle-row header-row'}>
+                            <Col className={isSmallDevice ? 'col-2 offset-1' : 'col-md-2'}>
+                                <Button
+                                    onClick={() => {
+                                        this.onClickSort(POST_SPECS.YEAR)
+                                    }}
+                                    className={isSmallDevice ? 'table-header-title-small' : 'table-header-title'}
+                                >
+                                    {this.renderColumnHeader(POST_SPECS.YEAR)}
+                                </Button>
+                            </Col>
+
+                            <Col className={isSmallDevice ? 'col-2' : 'col-md-2'}>
+                                <Button
+                                    onClick={() => {
+                                        this.onClickSort(POST_SPECS.MAKE)
+                                    }}
+                                    className={isSmallDevice ? 'table-header-title-small' : 'table-header-title'}
+                                >
+                                    {this.renderColumnHeader(POST_SPECS.MAKE)}
+                                </Button>
+                            </Col>
+
+                            <Col className={isSmallDevice ? 'col-2' : 'col-md-2'}>
+                                <Button
+                                    onClick={() => {
+                                        this.onClickSort(POST_SPECS.MODEL)
+                                    }}
+                                    className={isSmallDevice ? 'table-header-title-small' : 'table-header-title'}
+                                >
+                                    {this.renderColumnHeader(POST_SPECS.MODEL)}
+                                </Button>
+                            </Col>
+
+                            <Col className={isSmallDevice ? 'col-2' : 'col-md-3'}>
+                                <Button
+                                    onClick={() => {
+                                        this.onClickSort(POST_SPECS.MILEAGE)
+                                    }}
+
+                                    className={isSmallDevice ? 'table-header-title-small' : 'table-header-title'}
+                                >
+                                    {this.renderColumnHeader(POST_SPECS.MILEAGE)}
+                                </Button>
+                            </Col>
+
+                            <Col className={isSmallDevice ? 'col-2' : 'col-md-3'}>
+                                <Button
+                                    onClick={() => {
+                                        this.onClickSort(POST_SPECS.CREATED_AT)
+                                    }}
+                                    className={isSmallDevice ? 'table-header-title-small' : 'table-header-title'}
+                                >
+                                    {this.renderColumnHeader(POST_SPECS.CREATED_AT)}
+                                </Button>
+                            </Col>
+                        </Row>
+
+
+                        {this.renderVehicles()}
+                    </Grid>
+                </div>
             </div>
         );
     };
 
-    renderCars = () => {
-        return _.map(sampleData, (car, index) => {
-            const {created_at, year, make, model, mileage} = car;
+    renderVehicles = () => {
+        const {vehiclePosts} = this.props;
+
+        return _.map(vehiclePosts, (car, index) => {
+            const {createdAt, year, make, model, mileage} = car;
 
             const formattedMiles = Number(mileage).toLocaleString();
 
@@ -157,16 +168,16 @@ class BlinkestIndex extends Component {
                 return (
                     <Link to="/" key={index}>
                         <Row className="top-small-row">
-                            <Col className={'smartphone-text col-12'}><span>{combinedName}</span></Col>
+                            <Col className="smartphone-text col-12"><span>{combinedName}</span></Col>
                         </Row>
 
                         <Row className="bottom-small-row">
-                            <Col className={'smartphone-text col-4'}><span>{milesWithUnit}</span></Col>
-                            <Col className={'smartphone-text col-8'}>
+                            <Col className="smartphone-text col-6"><span>{milesWithUnit}</span></Col>
+                            <Col className="smartphone-text col-6">
                                     <span>
                                         <Moment
                                             calendar={calendarStrings}
-                                            date={created_at}
+                                            date={createdAt}
                                         />
                                     </span>
                             </Col>
@@ -178,15 +189,15 @@ class BlinkestIndex extends Component {
             return (
                 <Link to="/" key={index}>
                     <Row className="vehicle-row">
-                        <Col className={'table-text col-sm-2'}><span>{year}</span></Col>
-                        <Col className={'table-text col-sm-2'}><span>{make}</span></Col>
-                        <Col className={'table-text col-sm-2'}><span>{model}</span></Col>
-                        <Col className={'table-text col-sm-3'}><span>{formattedMiles}</span></Col>
-                        <Col className={'table-text col-sm-3'}>
+                        <Col className="table-text col-sm-2"><span>{year}</span></Col>
+                        <Col className="table-text col-sm-2"><span>{make}</span></Col>
+                        <Col className="table-text col-sm-2"><span>{model}</span></Col>
+                        <Col className="table-text col-sm-3"><span>{formattedMiles}</span></Col>
+                        <Col className="table-text col-sm-3">
                              <span>
                                 <Moment
                                     calendar={calendarStrings}
-                                    date={created_at}
+                                    date={createdAt}
                                 />
                             </span>
                         </Col>
@@ -202,8 +213,6 @@ class BlinkestIndex extends Component {
             <div className="container main-container">
                 <h1 className="text-center main-heading">Welcome to Blinkest!</h1>
 
-                <h3 className="table-heading">Available Vehicles</h3>
-
                 {this.renderTable()}
             </div>
         );
@@ -213,8 +222,9 @@ class BlinkestIndex extends Component {
 
 function mapStateToProps(state) {
     const {windowWidth, windowHeight} = state.bootstrap;
+    const {sortStyle, sortKey, vehiclePosts} = state.table;
 
-    return {windowWidth, windowHeight};
+    return {windowWidth, windowHeight, vehiclePosts, sortStyle, sortKey};
 }
 
-export default connect(mapStateToProps, {updateWindowDimensions})(BlinkestIndex);
+export default connect(mapStateToProps, {updateWindowDimensions, sortDataBy, loadVehicles})(BlinkestIndex);
