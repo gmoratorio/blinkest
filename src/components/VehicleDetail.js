@@ -36,7 +36,7 @@ class VehicleDetail extends Component {
             <Grid>
                 <Row>
                     <Col className="col-12">
-                        <Thumbnail>
+                        <Thumbnail className="thumbnail-main">
                             <Image src={imageUrl} responsive className="thumbnail" onError={this.handleImageError}/>
                             <h2>{combinedName}</h2>
                             <h5>{fullDescription}</h5>
