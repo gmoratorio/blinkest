@@ -181,7 +181,9 @@ describe('Given a TableReducer', () => {
                 sortStyle: SORT_STYLE.ASC,
                 searchText: '',
                 postsReady: false,
-                selectedVehicle: {}
+                selectedVehicle: {},
+                currentPage: 1,
+                currentIndex: 0
             };
 
             initializedState = {
@@ -191,7 +193,9 @@ describe('Given a TableReducer', () => {
                 sortStyle: SORT_STYLE.ASC,
                 searchText: '',
                 postsReady: true,
-                selectedVehicle: {}
+                selectedVehicle: {},
+                currentPage: 1,
+                currentIndex: 0
             };
         });
 

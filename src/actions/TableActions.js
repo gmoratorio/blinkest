@@ -35,7 +35,7 @@ export const loadVehicles = () => {
                 payload: {vehiclePosts: preparedData}
             });
         } catch (e) {
-            console.log(e);
+            console.log("Something went wrong retrieving the vehicles list...");
         }
 
 
