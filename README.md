@@ -18,12 +18,22 @@ Using our application, users can:
   * Posted Date
   
   The application is responsive and adaptive, working well from smartphones to desktop monitors. 
-  
-
-
-### Some technical notes:
+ 
+ 
+ 
+### Installation:
+ * To run the app:
+   * Clone this Repo
+   * `$ npm install`
+   * `$ npm start`
+ * Tests are written with Jest:
+   * Run `$ npm test`
+   * And then `$ a` to run all tests
+   
+   
+   
+### Some other technical notes:
  * On the VehicleDetail page, when a corrupt image comes in, a local fallback image is used
- * Tests are written with Jest, run `$ npm test` and then `$ a` to run all tests
  * For the Search logic
    * Strings will immediately return results that have any partial match
    * Numbers entered will only return if they are an exact match
