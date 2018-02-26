@@ -18,7 +18,9 @@ Using our application, users can:
   
   The application is responsive and adaptive, working well from smartphones to desktop monitors. 
   
-Some technical notes:
+
+
+### Some technical notes:
  * On the VehicleDetail page, when a corrupt image comes in, a local fallback image is used
  * Tests are written with Jest, run `$ npm test` and then `$ a` to run all tests
  * For the Search logic
