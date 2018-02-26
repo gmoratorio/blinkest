@@ -171,3 +171,7 @@
     color: black;
     text-decoration: none;
 }
+
+.pagination-center {
+    margin: auto;
+}

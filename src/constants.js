@@ -20,3 +20,5 @@ export const CALENDAR_STRINGS = {
     lastWeek: '[last] dddd [at] LT',
     sameElse: 'L'
 };
+
+export const PAGE_SIZE = 200;

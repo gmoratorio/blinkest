@@ -5,7 +5,8 @@ import {
     VEHICLE_POSTS_READY,
     UPDATED_SEARCH_TEXT,
     VEHICLE_SELECTED,
-    CLEAR_SELECTED_VEHICLE
+    CLEAR_SELECTED_VEHICLE,
+    PAGE_CHANGE
 } from '../actions/types';
 
 import {SORT_STYLE, POST_SPECS} from '../constants';
@@ -17,7 +18,9 @@ const INITIAL_STATE = {
     sortStyle: SORT_STYLE.ASC,
     searchText: '',
     postsReady: false,
-    selectedVehicle: {}
+    selectedVehicle: {},
+    currentPage: 1,
+    currentIndex: 0
 };
 
 const sortPosts = ({posts, sortKey, sortOrder}) => {
@@ -33,9 +36,9 @@ const sortPosts = ({posts, sortKey, sortOrder}) => {
     return sortedPosts;
 };
 
-const filterPosts = ({posts, searchText}) => {
+const filterPosts = ({posts, searchText, sortKey, sortOrder}) => {
     if (!searchText) {
-        return posts;
+        return sortPosts({posts, sortKey, sortOrder});
     }
 
     const searchArray = _.split(searchText, ' ');
@@ -66,10 +69,16 @@ export default (state = INITIAL_STATE, action) => {
 
     switch (type) {
         case VEHICLE_POSTS_READY:
+            let initialSortedPosts = sortPosts({
+                posts: payload.vehiclePosts,
+                sortKey: state.sortKey,
+                sortOrder: state.sortOrder
+            });
+
             return {
                 ...state,
-                vehiclePosts: payload.vehiclePosts,
-                displayedPosts: payload.vehiclePosts,
+                vehiclePosts: initialSortedPosts,
+                displayedPosts: initialSortedPosts,
                 postsReady: true
             };
 
@@ -84,14 +93,32 @@ export default (state = INITIAL_STATE, action) => {
 
             let sortedPosts = sortPosts({posts: displayedPosts, sortKey: newSortKey, sortOrder: nextSortStyle});
 
-            return {...state, sortKey: newSortKey, sortStyle: nextSortStyle, displayedPosts: sortedPosts};
+            return {
+                ...state,
+                sortKey: newSortKey,
+                sortStyle: nextSortStyle,
+                displayedPosts: sortedPosts,
+                currentPage: 1,
+                currentIndex: 0
+            };
 
         case UPDATED_SEARCH_TEXT:
             const {newSearchText} = payload;
 
-            let filteredPosts = filterPosts({posts: state.vehiclePosts, searchText: newSearchText});
+            let filteredPosts = filterPosts({
+                posts: state.vehiclePosts,
+                searchText: newSearchText,
+                sortKey: state.sortKey,
+                sortOrder: state.sortOrder
+            });
 
-            return {...state, searchText: newSearchText, displayedPosts: filteredPosts};
+            return {
+                ...state,
+                searchText: newSearchText,
+                displayedPosts: filteredPosts,
+                currentPage: 1,
+                currentIndex: 0
+            };
 
         case VEHICLE_SELECTED:
             const {selectedVehicle} = payload;
@@ -99,6 +126,10 @@ export default (state = INITIAL_STATE, action) => {
 
         case CLEAR_SELECTED_VEHICLE:
             return INITIAL_STATE;
+
+        case PAGE_CHANGE:
+            const {page, index} = payload;
+            return {...state, currentPage: page, currentIndex: index};
 
         default:
             return state;
