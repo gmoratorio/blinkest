@@ -14,7 +14,6 @@ import fallbackImage from '../assets/image_unavailable.jpg';
 class VehicleDetail extends Component {
 
     handleImageError = (event) => {
-        console.log(event);
         event.target.setAttribute('src', fallbackImage);
     };
 

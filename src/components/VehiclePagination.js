@@ -47,6 +47,16 @@ const VehiclePagination = ({isSmallDevice, totalDisplayPostCount, pageSize, curr
         });
     };
 
+    if(!totalDisplayPostCount){
+        return (
+            <Row>
+                <div className="pagination-center">
+                    No Results
+                </div>
+            </Row>
+        );
+    }
+
     if(isSmallDevice){
         return (
             <Row>
