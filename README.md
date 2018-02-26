@@ -10,6 +10,7 @@ Using our application, users can:
  * Click on any result in the list to get more detail about a vehicle
  
  In the detail view, a user can see the following information about the vehicle:
+  * Vehicle image (if provided)
   * Year, Make, and Model
   * Drivetrain (if available)
   * BodyStyle (if available)
