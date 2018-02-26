@@ -35,8 +35,10 @@ class BlinkestIndex extends Component {
     };
 
     onClickVehicleRow = (index) => {
-        const {displayedPosts} = this.props;
-        const selectedVehicle = displayedPosts[index];
+        const {displayedPosts, currentPage} = this.props;
+        const trueIndex = (PAGE_SIZE * currentPage) + index;
+
+        const selectedVehicle = displayedPosts[trueIndex];
 
         this.props.updateSelectedVehicle({selectedVehicle});
     };

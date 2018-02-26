@@ -69,15 +69,16 @@ export default (state = INITIAL_STATE, action) => {
 
     switch (type) {
         case VEHICLE_POSTS_READY:
-            let initialSortedPosts = sortPosts({
+            let initialSortedPosts = filterPosts({
                 posts: payload.vehiclePosts,
+                searchText: state.searchText,
                 sortKey: state.sortKey,
-                sortOrder: state.sortOrder
+                sortOrder: state.sortStyle
             });
 
             return {
                 ...state,
-                vehiclePosts: initialSortedPosts,
+                vehiclePosts: payload.vehiclePosts,
                 displayedPosts: initialSortedPosts,
                 postsReady: true
             };
@@ -109,7 +110,7 @@ export default (state = INITIAL_STATE, action) => {
                 posts: state.vehiclePosts,
                 searchText: newSearchText,
                 sortKey: state.sortKey,
-                sortOrder: state.sortOrder
+                sortOrder: state.sortStyle
             });
 
             return {
@@ -125,7 +126,7 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, selectedVehicle};
 
         case CLEAR_SELECTED_VEHICLE:
-            return INITIAL_STATE;
+            return {...state, selectedVehicle: {}};
 
         case PAGE_CHANGE:
             const {page, index} = payload;
