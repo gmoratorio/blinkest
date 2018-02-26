@@ -154,13 +154,21 @@
     padding-top: 0.30em;
 }
 
+.pagination-center {
+    margin: auto;
+}
+
 /*VehicleDetail Styles*/
 .detail-main-container {
     max-width: 100vw;
 }
 
+.thumbnail-main {
+    margin-bottom: 5em;
+}
+
 .thumbnail {
-    max-width: 100%;
+    max-width: 80%;
 }
 
 .back-button {
@@ -172,6 +180,3 @@
     text-decoration: none;
 }
 
-.pagination-center {
-    margin: auto;
-}
