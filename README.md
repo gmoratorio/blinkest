@@ -20,4 +20,16 @@ Using our application, users can:
   
 Some technical notes:
  * On the VehicleDetail page, when a corrupt image comes in, a local fallback image is used
- * For tests, run `$ npm test`
+ * Tests are written with Jest, run `$ npm test` and then `$ a` to run all tests
+ * For the Search logic
+   * Strings will immediately return results that have any partial match
+   * Numbers entered will only return if they are an exact match
+ * Notes on Pagination
+   * A very simple version of pagination was implemented to increase performance
+   * Results displayed per page can be modified by the `PAGE_SIZE` constant in `constants.js`
+   * Note: for this basic implementation, if you choose to change `PAGE_SIZE` please note the current UI recommendations
+      * Desktop: `PAGE_SIZE` should be greater than 100
+      * Tablet: `PAGE_SIZE` should be greater than 150
+      * Mobile: since this basic pagination implementation on mobile only shows `First Prev {current} Next Last` any size can be used for `PAGE_SIZE`
+   * To avoid user confusion, any Search or Sorting actions will reset the Pagination to page 1
+   
