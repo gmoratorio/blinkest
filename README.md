@@ -40,9 +40,9 @@ Using our application, users can:
  * Notes on Pagination
    * A very simple version of pagination was implemented to increase performance
    * Results displayed per page can be modified by the `PAGE_SIZE` constant in `constants.js`
-   * Note: for this basic implementation, if you choose to change `PAGE_SIZE` please note the current UI recommendations (based on the API endpoint having ~2,000 post entries)
-      * Desktop: `PAGE_SIZE` should be greater than 100
-      * Tablet: `PAGE_SIZE` should be greater than 150
+   * Note: for this basic implementation, if you choose to change `PAGE_SIZE` please note the current UI recommendations
+      * Desktop: 20 pages or less; `PAGE_SIZE` should be greater than 100, assuming API endpoint with ~2,000 posts
+      * Tablet: 15 pages or less; `PAGE_SIZE` should be greater than 150, assuming API endpoint with ~2,000 posts
       * Mobile: since this basic pagination implementation on mobile only shows `First Prev {current} Next Last` any size can be used for `PAGE_SIZE`
    * To avoid user confusion, any Search or Sorting actions will reset the Pagination to page 1
    
