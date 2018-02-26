@@ -1,5 +1,5 @@
 import React from 'react';
-import {Row, Col, Pagination} from 'react-bootstrap';
+import {Row} from 'react-bootstrap';
 
 import _ from 'lodash';
 
