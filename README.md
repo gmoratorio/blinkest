@@ -1,7 +1,8 @@
 # Blinkest
 ## Blink, Blinker, Blinkest!
 
-Blinkest is an app to search, sort, and inspect used cars. Stay tuned for our 2.0 version!
+### Overview
+Blinkest is an app to search, sort, and inspect used cars.
 
 Using our application, users can: 
  * Sort vehicles by Year, Make, Model, Mileage, or Posted Date
